@@ -11,6 +11,7 @@ namespace OpenLibrary.API.Configurations
             CreateMap<Author, AuthorViewModel>().ReverseMap();
             CreateMap<Book, BookViewModel>().ReverseMap();
             CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Publisher, PublisherViewModel>().ReverseMap();
             CreateMap<Rating, RatingViewModel>().ReverseMap();
             CreateMap<UserRating, UserRatingViewModel>().ReverseMap();
         }

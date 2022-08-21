@@ -27,7 +27,7 @@ namespace OpenLibrary.Data.Mappings
             // 1 : 1 => Rating : Book
             builder.HasOne(u => u.Book)
             .WithOne(b => b.Rating);
-
+         
             builder.ToTable("Rating");
         }
     }

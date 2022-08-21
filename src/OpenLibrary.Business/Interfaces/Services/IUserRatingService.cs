@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenLibrary.Business.Interfaces.Repository
+namespace OpenLibrary.Business.Interfaces.Services
 {
-    public interface IRatingRepository : IRepository<Rating>
+    public interface IUserRatingService : IDisposable
     {
-        Task<Rating> GetByIdWithRelation(Guid id);
+        Task<bool> Insert(UserRating userRating);
     }
 }

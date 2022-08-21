@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenLibrary.Business.Interfaces.Services
+namespace OpenLibrary.Business.Interfaces.Repository
 {
-    public interface IRatingService : IDisposable
+    public interface IPublisherRepository : IRepository<Publisher>
     {
-        Task<Rating> GetById(Guid id);
     }
 }

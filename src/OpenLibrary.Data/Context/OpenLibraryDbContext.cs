@@ -11,6 +11,7 @@ namespace OpenLibrary.Data.Context
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<UserRating> UserRatings { get; set; }
 

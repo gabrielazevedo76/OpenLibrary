@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace OpenLibrary.Data.Mappings
 {
-    public class CategoryMapping : IEntityTypeConfiguration<Category>
+    public class PublisherMapping : IEntityTypeConfiguration<Publisher>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Publisher> builder)
         {
             builder.HasKey(p => p.Id);
 
@@ -19,11 +19,19 @@ namespace OpenLibrary.Data.Mappings
             .IsRequired()
             .HasColumnType("varchar(100)");
 
-            builder.HasMany(x => x.Books)
-            .WithOne(x => x.Category)
-            .HasForeignKey(x => x.CategoryId);
+            builder.Property(p => p.Email)
+            .IsRequired()
+            .HasColumnType("varchar(100)");
 
-            builder.ToTable("Category");
+            builder.Property(p => p.CNPJ)
+            .IsRequired()
+            .HasColumnType("varchar(14)");
+
+            builder.HasMany(x => x.Books)
+            .WithOne(x => x.Publisher)
+            .HasForeignKey(x => x.PublisherId);
+
+            builder.ToTable("Publisher");
         }
     }
 }

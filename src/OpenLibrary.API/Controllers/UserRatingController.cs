@@ -12,10 +12,12 @@ namespace OpenLibrary.API.Controllers
     public class UserRatingController : MainController
     {
         private readonly IUserRatingRepository _userRatingRepository;
+        private readonly IUserRatingService _userRatingService;
         private readonly IMapper _mapper;
 
-        public UserRatingController(IUserRatingRepository userRatingRepository, IMapper mapper, INotifier notifier) : base(notifier)
+        public UserRatingController(IUserRatingRepository userRatingRepository, IUserRatingService userRatingService,IMapper mapper, INotifier notifier) : base(notifier)
         {
+            _userRatingService = userRatingService;
             _userRatingRepository = userRatingRepository;
             _mapper = mapper;
         } 
@@ -40,7 +42,7 @@ namespace OpenLibrary.API.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _userRatingRepository.Insert(_mapper.Map<UserRating>(userRatingViewModel));
+            await _userRatingService.Insert(_mapper.Map<UserRating>(userRatingViewModel));
 
             return CustomResponse(userRatingViewModel);
         }

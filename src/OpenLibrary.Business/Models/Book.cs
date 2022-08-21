@@ -10,15 +10,19 @@ namespace OpenLibrary.Business.Models
     {
         public Guid AuthorId { get; set; }
         public Guid CategoryId { get; set; }
+        public Guid PublisherId { get; set; }
+        
+        public Guid RatingId { get; set; }
 
         public string Name { get; set; }
         public string Sinopsis { get; set; }
         public string Imagem { get; set; }
-        public Rating Rating { get; set; }
         public DateTime ReleaseDate { get; set; }
 
         /* EF Relation */
+        public Rating Rating { get; set; }
         public Author Author { get; set; }
         public Category Category { get; set; }
+        public Publisher Publisher { get; set; }
     }
 }

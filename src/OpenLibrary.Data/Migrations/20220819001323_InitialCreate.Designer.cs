@@ -12,8 +12,8 @@ using OpenLibrary.Data.Context;
 namespace OpenLibrary.Data.Migrations
 {
     [DbContext(typeof(OpenLibraryDbContext))]
-    [Migration("20220814125428_AddedRatingAndUserRating")]
-    partial class AddedRatingAndUserRating
+    [Migration("20220819001323_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,15 @@ namespace OpenLibrary.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(200)");
 
+                    b.Property<Guid>("PublisherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RatingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Sinopsis")
                         .IsRequired()
                         .HasColumnType("varchar(2000)");
@@ -75,6 +84,11 @@ namespace OpenLibrary.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("PublisherId");
+
+                    b.HasIndex("RatingId")
+                        .IsUnique();
 
                     b.ToTable("Book", (string)null);
                 });
@@ -94,22 +108,39 @@ namespace OpenLibrary.Data.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
+            modelBuilder.Entity("OpenLibrary.Business.Models.Publisher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CNPJ")
+                        .IsRequired()
+                        .HasColumnType("varchar(14)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publisher", (string)null);
+                });
+
             modelBuilder.Entity("OpenLibrary.Business.Models.Rating", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<short>("TotalRating")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId")
-                        .IsUnique();
 
                     b.ToTable("Rating", (string)null);
                 });
@@ -120,19 +151,16 @@ namespace OpenLibrary.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Comment")
                         .HasColumnType("varchar(2000)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<short>("Rate")
                         .HasColumnType("smallint");
 
                     b.Property<Guid>("RatingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -150,23 +178,27 @@ namespace OpenLibrary.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("OpenLibrary.Business.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("CategoryId")
+                        .IsRequired();
+
+                    b.HasOne("OpenLibrary.Business.Models.Publisher", "Publisher")
+                        .WithMany("Books")
+                        .HasForeignKey("PublisherId")
+                        .IsRequired();
+
+                    b.HasOne("OpenLibrary.Business.Models.Rating", "Rating")
+                        .WithOne("Book")
+                        .HasForeignKey("OpenLibrary.Business.Models.Book", "RatingId")
                         .IsRequired();
 
                     b.Navigation("Author");
 
                     b.Navigation("Category");
-                });
 
-            modelBuilder.Entity("OpenLibrary.Business.Models.Rating", b =>
-                {
-                    b.HasOne("OpenLibrary.Business.Models.Book", "Book")
-                        .WithOne("Rating")
-                        .HasForeignKey("OpenLibrary.Business.Models.Rating", "BookId")
-                        .IsRequired();
+                    b.Navigation("Publisher");
 
-                    b.Navigation("Book");
+                    b.Navigation("Rating");
                 });
 
             modelBuilder.Entity("OpenLibrary.Business.Models.UserRating", b =>
@@ -184,14 +216,21 @@ namespace OpenLibrary.Data.Migrations
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("OpenLibrary.Business.Models.Book", b =>
+            modelBuilder.Entity("OpenLibrary.Business.Models.Category", b =>
                 {
-                    b.Navigation("Rating")
-                        .IsRequired();
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("OpenLibrary.Business.Models.Publisher", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("OpenLibrary.Business.Models.Rating", b =>
                 {
+                    b.Navigation("Book")
+                        .IsRequired();
+
                     b.Navigation("UserRatings");
                 });
 #pragma warning restore 612, 618

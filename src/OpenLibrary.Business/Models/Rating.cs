@@ -2,7 +2,6 @@
 {
     public class Rating : Entity
     {
-        public Guid BookId { get; set; }
         public int TotalRating { get; set; }
 
         /* EF Relation */

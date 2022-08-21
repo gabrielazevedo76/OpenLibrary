@@ -16,7 +16,7 @@ namespace OpenLibrary.API.ViewModels
         public string Sinopsis { get; set; }
 
         public string ImagemUpload { get; set; }
-
+        
         public string Imagem { get; set; }
 
         public DateTime ReleaseDate { get; set; }
@@ -27,5 +27,10 @@ namespace OpenLibrary.API.ViewModels
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public Guid AuthorId { get; set; }
+        
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public Guid PublisherId { get; set; }
+        
+        public Guid RatingId { get; set; }
     }
 }

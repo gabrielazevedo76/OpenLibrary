@@ -29,8 +29,9 @@ builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
-builder.Services.AddScoped<IRatingService, RatingService>();
+builder.Services.AddScoped<IUserRatingService, UserRatingService>();
 builder.Services.AddScoped<IUserRatingRepository, UserRatingRepository>();
 builder.Services.AddScoped<INotifier, Notifier>();
 

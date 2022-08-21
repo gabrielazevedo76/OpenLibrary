@@ -12,13 +12,11 @@ namespace OpenLibrary.API.Controllers
     public class RatingController : MainController
     {
         private readonly IRatingRepository _ratingRepository;
-        private readonly IRatingService _ratingService;
         private readonly IMapper _mapper;
 
-        public RatingController(IRatingRepository ratingRepository, IRatingService ratingService, IMapper mapper, INotifier notifier) : base(notifier)
+        public RatingController(IRatingRepository ratingRepository, IMapper mapper, INotifier notifier) : base(notifier)
         {
             _ratingRepository = ratingRepository;
-            _ratingService = ratingService;
             _mapper = mapper;
         } 
 
@@ -33,7 +31,7 @@ namespace OpenLibrary.API.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<Rating>> Get(Guid id)
         {
-            var rating = _mapper.Map<RatingViewModel>(await _ratingService.GetById(id));
+            var rating = _mapper.Map<RatingViewModel>(await _ratingRepository.GetByIdWithRelation(id));
 
             return CustomResponse(rating);
         }

@@ -14,10 +14,11 @@ namespace OpenLibrary.Data.Repository
     {
         public RatingRepository(OpenLibraryDbContext context) : base(context) {}
 
-        public override async Task<Rating> GetById(Guid id)
+        public async Task<Rating> GetByIdWithRelation(Guid id)
         {
             var RatingWithBook = await Db.Ratings
                 .Include(x => x.Book)
+                .AsNoTracking()
                 .Include(x => x.UserRatings)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);

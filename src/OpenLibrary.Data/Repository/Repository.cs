@@ -25,12 +25,12 @@ namespace OpenLibrary.Data.Repository
 
         public virtual async Task<List<TEntity>> GetAll()
         {
-            return await DbSet.ToListAsync();
+            return await DbSet.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<TEntity> GetById(Guid id)
         {
-            return await DbSet.FirstOrDefaultAsync(x => x.Id == id);
+            return await DbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public virtual async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)

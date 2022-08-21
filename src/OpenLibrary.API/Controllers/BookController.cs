@@ -39,7 +39,7 @@ namespace OpenLibrary.API.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var imageName = bookViewModel.Imagem + "_" + Guid.NewGuid();
+            var imageName = bookViewModel.Imagem + "_" + Guid.NewGuid() + ".png";
 
             if (!ImageUpload(bookViewModel.ImagemUpload, imageName))
             {
